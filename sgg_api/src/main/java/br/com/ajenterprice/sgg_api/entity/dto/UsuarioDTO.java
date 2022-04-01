@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 public class UsuarioDTO {
 
+    private Long id;
     private String nome;
     private String email;
     private String senha;
@@ -18,6 +19,7 @@ public class UsuarioDTO {
     }
 
     public UsuarioDTO(Usuario usuario) {
+        this.id = usuario.getId();
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
         this.perfil = usuario.getPerfil();

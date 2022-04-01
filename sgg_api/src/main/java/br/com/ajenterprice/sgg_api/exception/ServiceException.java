@@ -17,4 +17,18 @@ public class ServiceException extends RuntimeException {
     public ServiceException(String message) {
         super(message);
     }
+
+    public ServiceException(Exception ex) {
+        super(ex);
+    }
+
+    /**
+     * Cria nova instancia da classe ServicoException
+     *
+     * @param msg mensagem a ser enviada na exception
+     * @param ex  Exception original a ser enviada
+     */
+    public ServiceException(String msg, Exception ex) {
+        super(msg, ex);
+    }
 }

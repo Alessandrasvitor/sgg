@@ -4,6 +4,7 @@ import br.com.ajenterprice.sgg_api.constant.Genero;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 
@@ -25,6 +26,7 @@ public class Livro {
     @Column(name = "sub_nome")
     private String subNome;
     @NotNull
+    @CreationTimestamp
     @Column(name = "data_criacao")
     private Date dataCriacao;
     @NotNull

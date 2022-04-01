@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class Capitulo {
     @NotNull
     private String titulo;
     @NotNull
+    @CreationTimestamp
     @Column(name = "data_criacao")
     private Date dataCriacao;
     @NotNull
