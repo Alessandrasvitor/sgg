@@ -35,7 +35,7 @@ public class Curso {
     private Date dataFim;
 
     @ManyToOne(cascade = {CascadeType.REFRESH})
-    @JoinColumn(name = "instituicao_ensino_ID", referencedColumnName = "id")
+    @JoinColumn(name = "intituicao_ensino_id", referencedColumnName = "id")
     private InstituicaoEnsino instituicaoEnsino;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
