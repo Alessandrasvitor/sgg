@@ -14,14 +14,14 @@ import javax.persistence.*;
 public class Usuario {
 
     @Id
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     private Long id;
     @NotNull
     private String nome;
     @NotNull
     private String email;
     @NotNull
+    //senhas padrão bh1234
     private String senha;
     @NotNull
     @Enumerated(EnumType.STRING)

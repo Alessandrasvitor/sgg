@@ -1,12 +1,14 @@
 package br.com.ajenterprice.sgg_api.controller;
 
 import br.com.ajenterprice.sgg_api.entity.dto.AnotacaoDTO;
+import br.com.ajenterprice.sgg_api.exception.ServiceException;
 import br.com.ajenterprice.sgg_api.service.AnotacaoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.webjars.NotFoundException;
 
 @CrossOrigin
 @RestController
@@ -26,8 +28,12 @@ public class AnotacaoController {
     public ResponseEntity buscar(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(anotacaoService.buscar(id));
+        } catch (ServiceException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (NotFoundException ex) {
+            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
-            return ResponseEntity.ok(ex.getMessage());
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 
@@ -35,9 +41,11 @@ public class AnotacaoController {
     public ResponseEntity salvar(@RequestBody AnotacaoDTO anotacao) {
         try {
             anotacaoService.salvar(anotacao);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.created(null).build();
+        } catch (ServiceException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
-            return ResponseEntity.ok(ex.getMessage());
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 
@@ -45,8 +53,12 @@ public class AnotacaoController {
     public ResponseEntity alterar(@PathVariable Long id, @RequestBody AnotacaoDTO anotacao) {
         try {
             return ResponseEntity.ok(anotacaoService.alterar(id, anotacao));
+        } catch (ServiceException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (NotFoundException ex) {
+            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
-            return ResponseEntity.ok(ex.getMessage());
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 
@@ -55,8 +67,12 @@ public class AnotacaoController {
         try {
             anotacaoService.remover(id);
             return ResponseEntity.ok().build();
+        } catch (ServiceException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        } catch (NotFoundException ex) {
+            return ResponseEntity.notFound().build();
         } catch (Exception ex) {
-            return ResponseEntity.ok(ex.getMessage());
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 

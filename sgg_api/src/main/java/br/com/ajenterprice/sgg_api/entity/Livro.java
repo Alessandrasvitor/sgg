@@ -18,8 +18,7 @@ import java.util.List;
 public class Livro {
 
     @Id
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     private String nome;
@@ -42,4 +41,6 @@ public class Livro {
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
 
+    @Transient
+    private Long IdUsuario;
 }

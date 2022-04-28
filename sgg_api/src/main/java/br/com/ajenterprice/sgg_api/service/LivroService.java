@@ -9,6 +9,7 @@ import br.com.ajenterprice.sgg_api.repository.UsuarioRepository;
 import br.com.ajenterprice.sgg_api.util.GeralUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 import java.util.Date;
 import java.util.List;
@@ -35,7 +36,7 @@ public class LivroService {
     public Livro buscar(Long id) {
         Optional<Livro> livroOp = livroRepository.findById(id);
         if(livroOp.isEmpty()) {
-            throw new ServiceException("Livro não encontrado!");
+            throw new NotFoundException("Livro não encontrado!");
         }
         return livroOp.get();
     }
@@ -43,7 +44,7 @@ public class LivroService {
     public Livro buscar(String nome) {
         Livro livro = livroRepository.findByNome(nome);
         if(livro == null) {
-            throw new ServiceException("Livro não encontrado!");
+            throw new NotFoundException("Livro não encontrado!");
         }
         return livro;
     }
@@ -57,8 +58,10 @@ public class LivroService {
     }
 
     private void validarUsuario(Livro livro) {
-        if(livro.getUsuario() == null) {
+        if(livro.getIdUsuario() == null) {
             livro.setUsuario(usuarioRepository.findByEmail("email@email.com"));
+        } else {
+            livro.setUsuario(usuarioRepository.getById(livro.getIdUsuario()));
         }
     }
 

@@ -8,7 +8,9 @@ import br.com.ajenterprice.sgg_api.util.CriptografiaUtil;
 import br.com.ajenterprice.sgg_api.util.GeralUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
+import javax.security.auth.message.AuthException;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class UsuarioService {
     public Usuario buscar(Long id) {
         Optional<Usuario> usuarioOp = usuarioRepository.findById(id);
         if(usuarioOp.isEmpty()) {
-            throw new ServiceException("Usuário não encontrado!");
+            throw new NotFoundException("Usuário não encontrado!");
         }
         return usuarioOp.get();
     }
@@ -49,10 +51,14 @@ public class UsuarioService {
     }
 
     public void salvar(UsuarioDTO usuario) {
+
+        if(GeralUtil.stringNullOrEmpty(usuario.getNome())) {
+            throw new ServiceException("O preenchimento do nome é obrigatório!");
+        }
+        validarSenha(usuario.getSenha());
         if(validarEmailExistente(usuario.getEmail())) {
             throw new ServiceException("Email já existe no sistema!");
         }
-        validarSenha(usuario.getSenha());
         Usuario usuarioNovo = new Usuario();
         usuarioNovo.setNome(usuario.getNome());
         usuarioNovo.setPerfil(usuario.getPerfil());
@@ -90,7 +96,7 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    public void logar(UsuarioDTO u) {
+    public UsuarioDTO logar(UsuarioDTO u) throws ServiceException, AuthException {
         if(GeralUtil.stringNullOrEmpty(u.getEmail())) {
             throw new ServiceException("Email não informado!");
         }
@@ -99,8 +105,10 @@ public class UsuarioService {
         }
         Usuario usuario = usuarioRepository.findByEmailAndSenha(u.getEmail(), CriptografiaUtil.criptografarSHA256(u.getSenha()));
         if(usuario == null) {
-            throw new ServiceException("Usuário ou Senha inválido!");
+            throw new AuthException("Usuário ou Senha inválido!");
         }
+
+        return new UsuarioDTO(usuario);
     }
 
 }

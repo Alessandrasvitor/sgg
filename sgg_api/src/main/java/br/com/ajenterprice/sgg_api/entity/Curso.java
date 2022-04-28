@@ -1,6 +1,7 @@
 package br.com.ajenterprice.sgg_api.entity;
 
 import br.com.ajenterprice.sgg_api.constant.StatusEnum;
+import br.com.ajenterprice.sgg_api.util.DataUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,8 +16,7 @@ import java.util.Date;
 public class Curso {
 
     @Id
-    @Column(columnDefinition = "serial")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nome")
@@ -49,5 +49,27 @@ public class Curso {
     private StatusEnum status;
     @Column(name = "finalizado")
     private Boolean finalizado;
+
+    @Transient
+    private Long idInstituicao;
+
+    @Transient
+    private Long idUsuario;
+
+    public String getDataInicioFormatada() {
+        String data = "";
+        if(this.dataInicio != null) {
+            data = DataUtil.formataDataPadrao(this.dataInicio);
+        }
+        return data;
+    }
+
+    public String getDataFimFormatada() {
+        String data = "";
+        if(this.dataFim != null) {
+            data = DataUtil.formataDataPadrao(this.dataFim);
+        }
+        return data;
+    }
 
 }

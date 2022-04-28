@@ -1,9 +1,8 @@
 package br.com.ajenterprice.sgg_api.controller;
 
-import br.com.ajenterprice.sgg_api.entity.Livro;
-import br.com.ajenterprice.sgg_api.entity.dto.CapituloDTO;
+import br.com.ajenterprice.sgg_api.entity.InstituicaoEnsino;
 import br.com.ajenterprice.sgg_api.exception.ServiceException;
-import br.com.ajenterprice.sgg_api.service.LivroService;
+import br.com.ajenterprice.sgg_api.service.InstituicaoEnsinoService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +12,22 @@ import org.webjars.NotFoundException;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/livro")
+@RequestMapping("/instituicaoEnsino")
 @OpenAPIDefinition(info = @Info(title = "Sistema de gestão de entreteinimento", version = "1.0", description = ""))
-public class LivroController {
+public class InstituicaoEnsinoController {
 
     @Autowired
-    private LivroService livroService;
+    private InstituicaoEnsinoService instituicaoEnsinoService;
 
     @GetMapping()
     public ResponseEntity listar() {
-        return ResponseEntity.ok(livroService.listar());
+        return ResponseEntity.ok(instituicaoEnsinoService.listar());
     }
 
     @GetMapping("{id}")
     public ResponseEntity buscar(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(livroService.buscar(id));
+            return ResponseEntity.ok(instituicaoEnsinoService.buscar(id));
         } catch (ServiceException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (NotFoundException ex) {
@@ -39,9 +38,9 @@ public class LivroController {
     }
 
     @PostMapping()
-    public ResponseEntity salvar(@RequestBody Livro livro) {
+    public ResponseEntity salvar(@RequestBody InstituicaoEnsino instituicaoEnsino) {
         try {
-            livroService.salvar(livro);
+            instituicaoEnsinoService.salvar(instituicaoEnsino);
             return ResponseEntity.created(null).build();
         } catch (ServiceException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -51,23 +50,9 @@ public class LivroController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity alterar(@PathVariable Long id, @RequestBody Livro livro) {
+    public ResponseEntity alterar(@PathVariable Long id, @RequestBody InstituicaoEnsino instituicaoEnsino) {
         try {
-            livroService.alterar(id, livro);
-            return ResponseEntity.ok().build();
-        } catch (ServiceException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
-        } catch (NotFoundException ex) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception ex) {
-            return ResponseEntity.internalServerError().body(ex.getMessage());
-        }
-    }
-
-    @PatchMapping()
-    public ResponseEntity adicionarCapitulo(@RequestBody CapituloDTO capitulo) {
-        try {
-            livroService.adicionarCapitulo(capitulo);
+            instituicaoEnsinoService.alterar(id, instituicaoEnsino);
             return ResponseEntity.ok().build();
         } catch (ServiceException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -81,7 +66,7 @@ public class LivroController {
     @DeleteMapping("{id}")
     public ResponseEntity deletar(@PathVariable Long id) {
         try {
-            livroService.remover(id);
+            instituicaoEnsinoService.remover(id);
             return ResponseEntity.ok().build();
         } catch (ServiceException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

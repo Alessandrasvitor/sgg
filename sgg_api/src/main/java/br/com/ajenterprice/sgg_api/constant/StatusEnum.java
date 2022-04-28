@@ -5,6 +5,7 @@ public enum StatusEnum {
     PENDENTE,
     INICIADO,
     CONCLUIDO,
+    REINICIADO,
     REPROVADO;
 
 }
